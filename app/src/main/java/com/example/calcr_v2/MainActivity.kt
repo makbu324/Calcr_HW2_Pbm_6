@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
     private lateinit var button_1: Button
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var button_plus: Button
     private lateinit var button_minus: Button
     private lateinit var button_times: Button
+    private lateinit var button_divide: Button
+    private lateinit var button_root: Button
     private lateinit var button_C: Button
     private lateinit var button_equals: Button
 
@@ -29,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     public var add_mode = false
     public var minus_mode = false
     public var times_mode = false
+    public var divide_mode = false
+    public var root_mode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +51,11 @@ class MainActivity : AppCompatActivity() {
         button_7 = findViewById(R.id.button_7)
         button_8 = findViewById(R.id.button_8)
         button_9 = findViewById(R.id.button_9)
-
         button_plus = findViewById(R.id.button_plus)
         button_minus = findViewById(R.id.button_minus)
         button_times = findViewById(R.id.button_times)
+        button_divide = findViewById(R.id.button_divide)
+        button_root = findViewById(R.id.button_root)
         button_C = findViewById(R.id.button_C)
         button_equals = findViewById(R.id.button_equals)
 
@@ -69,6 +75,11 @@ class MainActivity : AppCompatActivity() {
                 current_value -= load_value
             } else if (times_mode == true) {
                 current_value *= load_value
+            } else if (divide_mode == true){
+                current_value /= load_value
+            } else if (root_mode == true){
+                //As of right now the sqrt will only return whole numbers.
+                current_value = sqrt(current_value.toDouble()).toInt()
             }
         }
 
@@ -135,6 +146,20 @@ class MainActivity : AppCompatActivity() {
             load_value = 0
         }
 
+        button_divide.setOnClickListener{
+            check()
+            result.setText(current_value.toString())
+            divide_mode = true
+            load_value = 0
+        }
+
+        button_root.setOnClickListener{
+            check()
+            result.setText(current_value.toString())
+            root_mode = true
+            load_value = 0
+        }
+
         button_equals.setOnClickListener{
             check()
 
@@ -144,6 +169,7 @@ class MainActivity : AppCompatActivity() {
             add_mode = false
             minus_mode = false
             times_mode = false
+            divide_mode = false
             result.setText(current_value.toString())
         }
 
@@ -156,6 +182,7 @@ class MainActivity : AppCompatActivity() {
             add_mode = false
             minus_mode = false
             times_mode = false
+            divide_mode = false
             result.setText(current_value.toString())
         }
     }

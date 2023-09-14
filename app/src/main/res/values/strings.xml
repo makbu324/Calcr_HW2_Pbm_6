@@ -13,5 +13,9 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="times">*</string>
+    <string name="divide">/</string>
     <string name="equals">=</string>
+    <string name="clear">C</string>
+    <string name="root">√</string>
+
 </resources>
