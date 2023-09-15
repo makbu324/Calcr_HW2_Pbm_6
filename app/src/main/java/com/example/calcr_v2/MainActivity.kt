@@ -83,9 +83,7 @@ class MainActivity : AppCompatActivity() {
             } else if (divide_mode == true){
                 current_value /= load_value
             } else if (root_mode == true){
-                //As of right now the sqrt will only return whole numbers
-
-              //
+                current_value = sqrt(current_value)
             }
         }
 
