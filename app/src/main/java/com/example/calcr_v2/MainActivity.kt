@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
@@ -71,21 +72,56 @@ class MainActivity : AppCompatActivity() {
 
         currentToInt()
 
+        //ERROR MESSAGE
+        fun complain() {
+            load_value = 0.0
+            current_value = 0.0
+            Toast.makeText(
+                this,
+                R.string.invalid_ms,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
         fun check() {
-            //check if we entered the first value
-            if (first_value == true) {
-                first_value = false
-                current_value = load_value
-            } else if (add_mode == true) {
-                current_value += load_value
-            } else if (minus_mode == true) {
-                current_value -= load_value
-            } else if (times_mode == true) {
-                current_value *= load_value
-            } else if (divide_mode == true){
-                current_value /= load_value
-            } else if (root_mode == true){
-                current_value = sqrt(current_value)
+            var good = false //Sees if we can proceed normally with the calculation
+
+            //*checks if the loaded value is invalid*
+            var typed = result.getText().toString()
+            var i = 0
+            for (c in typed){
+                if (c.equals('.')) i += 1
+            }
+            //ERROR will happen when
+            // if '.' is in the beginning, occurs more than twice,
+            // if the load value is empty
+            // if there is another active mode
+
+            if (typed.isEmpty()) complain()
+            else if (i > 1 || typed[0].equals('.') || typed[typed.length-1].equals('.') ) complain()
+            else if (add_mode == true || minus_mode == true || times_mode == true || divide_mode == true) complain()
+            else {
+                good = true
+                load_value = typed.toDouble()
+            }
+
+            if (good == true) {
+                if (first_value == true) {
+                    first_value = false
+                    current_value = load_value
+                } else if (add_mode == true) {
+                    current_value += load_value
+                } else if (minus_mode == true) {
+                    current_value -= load_value
+                } else if (times_mode == true) {
+                    current_value *= load_value
+                } else if (divide_mode == true){
+                    if (load_value == 0.0) complain()
+                    else current_value /= load_value
+                } else if (root_mode == true){
+                    if (load_value < 0.0) complain()
+                    else current_value = sqrt(current_value)
+                }
             }
         }
 

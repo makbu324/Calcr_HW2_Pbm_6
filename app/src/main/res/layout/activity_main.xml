@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:inputType="number"
             android:autoSizeTextType="uniform"
-            android:digits="1234567890"
+            android:digits="1234567890."
             app:layout_constraintBottom_toBottomOf="parent"/>
     </LinearLayout>
 
