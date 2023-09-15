@@ -7,6 +7,7 @@ import android.widget.EditText
 import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var button_0: Button
     private lateinit var button_1: Button
     private lateinit var button_2: Button
     private lateinit var button_3: Button
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         //variables
 
         var result = findViewById<EditText>(R.id.result)
+        button_0 = findViewById(R.id.button_0)
         button_1 = findViewById(R.id.button_1)
         button_2 = findViewById(R.id.button_2)
         button_3 = findViewById(R.id.button_3)
@@ -96,7 +98,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
+        button_0.setOnClickListener{
+            load(0.0)
+        }
 
         button_1.setOnClickListener{
             load(1.0)
