@@ -24,8 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var button_C: Button
     private lateinit var button_equals: Button
 
-    public var current_value = 0
-    public var load_value = 0
+    public var current_value = 0.0
+    public var load_value = 0.0
+
 
     public var first_value = true
 
@@ -59,12 +60,16 @@ class MainActivity : AppCompatActivity() {
         button_C = findViewById(R.id.button_C)
         button_equals = findViewById(R.id.button_equals)
 
-        //
-        result.setText(current_value.toString())
-        //
+        // Helper function for checking if the current number is whole.
+        // If yes, displays as an int. Avoids unnecessary decimal points.
+        fun currentToInt() {
+            if (current_value % 1 == 0.0) result.setText(current_value.toInt().toString())
+            else result.setText(current_value.toString())
+        }
+
+        currentToInt()
 
         fun check() {
-            load_value = Integer.parseInt(result.getText().toString())
             //check if we entered the first value
             if (first_value == true) {
                 first_value = false
@@ -78,86 +83,92 @@ class MainActivity : AppCompatActivity() {
             } else if (divide_mode == true){
                 current_value /= load_value
             } else if (root_mode == true){
-                //As of right now the sqrt will only return whole numbers.
-                current_value = sqrt(current_value.toDouble()).toInt()
+                //As of right now the sqrt will only return whole numbers
+
+              //
             }
         }
 
-        fun load(n: Int) {
+        fun load(n: Double) {
             load_value *= 10
             load_value += n
-            result.setText(load_value.toString())
+            if (load_value % 1 == 0.0)
+                result.setText(load_value.toInt().toString())
+            else result.setText(load_value.toString())
+
         }
 
+
+
         button_1.setOnClickListener{
-            load(1)
+            load(1.0)
         }
 
         button_2.setOnClickListener{
-            load(2)
+            load(2.0)
         }
 
         button_3.setOnClickListener{
-            load(3)
+            load(3.0)
         }
 
         button_4.setOnClickListener{
-            load(4)
+            load(4.0)
         }
 
         button_5.setOnClickListener{
-            load(5)
+            load(5.0)
         }
 
         button_6.setOnClickListener{
-            load(6)
+            load(6.0)
         }
 
         button_7.setOnClickListener{
-            load(7)
+            load(7.0)
         }
 
         button_8.setOnClickListener{
-            load(8)
+            load(8.0)
         }
 
         button_9.setOnClickListener{
-            load(9)
+            load(9.0)
         }
 
         button_plus.setOnClickListener{
             check()
-            result.setText(current_value.toString())
+            currentToInt()
             add_mode = true
-            load_value = 0
+            load_value = 0.0
         }
 
         button_minus.setOnClickListener{
             check()
-            result.setText(current_value.toString())
+            currentToInt()
             minus_mode = true
-            load_value = 0
+            load_value = 0.0
         }
 
         button_times.setOnClickListener{
             check()
-            result.setText(current_value.toString())
+            currentToInt()
             times_mode = true
-            load_value = 0
+            load_value = 0.0
         }
 
         button_divide.setOnClickListener{
             check()
-            result.setText(current_value.toString())
+            currentToInt()
             divide_mode = true
-            load_value = 0
+            load_value = 0.0
         }
 
         button_root.setOnClickListener{
             check()
-            result.setText(current_value.toString())
+            currentToInt()
             root_mode = true
-            load_value = 0
+            load_value = 0.0
         }
 
         button_equals.setOnClickListener{
@@ -170,20 +181,20 @@ class MainActivity : AppCompatActivity() {
             minus_mode = false
             times_mode = false
             divide_mode = false
-            result.setText(current_value.toString())
+            currentToInt()
         }
 
         button_C.setOnClickListener{
 
             //reset
-            load_value = 0
-            current_value = 0
+            load_value = 0.0
+            current_value = 0.0
             first_value = true
             add_mode = false
             minus_mode = false
             times_mode = false
             divide_mode = false
-            result.setText(current_value.toString())
+            currentToInt()
         }
     }
 }
