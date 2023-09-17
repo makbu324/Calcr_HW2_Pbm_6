@@ -17,5 +17,6 @@
     <string name="equals">=</string>
     <string name="clear">C</string>
     <string name="root">√</string>
+    <string name="decimal">.</string>
     <string name="invalid_ms">ERROR! Try again!!</string>
 </resources>
