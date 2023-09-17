@@ -1,5 +1,6 @@
 package com.example.calcr_v2
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View.OnTouchListener
 import android.widget.Button
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var button_times: Button
     private lateinit var button_divide: Button
     private lateinit var button_root: Button
+    private lateinit var button_decimal: Button
     private lateinit var button_C: Button
     private lateinit var button_equals: Button
 
@@ -40,7 +42,11 @@ class MainActivity : AppCompatActivity() {
     public var divide_mode = false
     public var root_mode = false
     public var number_typed = true
+    public var decimal_mode = false
+    public var recent_decimal = false
+    public var equals_mode = false
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -63,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         button_times = findViewById(R.id.button_times)
         button_divide = findViewById(R.id.button_divide)
         button_root = findViewById(R.id.button_root)
+        button_decimal = findViewById(R.id.button_decimal)
         button_C = findViewById(R.id.button_C)
         button_equals = findViewById(R.id.button_equals)
 
@@ -81,6 +88,9 @@ class MainActivity : AppCompatActivity() {
             minus_mode = false
             times_mode = false
             divide_mode = false
+            decimal_mode = false
+            recent_decimal = false
+            equals_mode = false
             currentToInt()
         }
 
@@ -122,6 +132,8 @@ class MainActivity : AppCompatActivity() {
             else {
                 good = true
                 load_value = typed.toDouble()
+                decimal_mode = false
+                recent_decimal = false
             }
 
             if (good == true) {
@@ -152,16 +164,35 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun load(n: Double) {
-            if (result.getText().toString().length < 10000000 && load_value < 99999999) {
-                load_value *= 10
-                load_value += n
-                if (load_value % 1 == 0.0)
-                    result.setText(load_value.toInt().toString())
-                else result.setText(load_value.toString())
-                number_typed = true
+            if (!equals_mode) {
+                if (result.getText().toString().length < 10000000 && load_value < 99999999) {
+                    if (decimal_mode) {
+                        if (recent_decimal) {
+                            load_value = (result.text.toString() + n.toInt().toString()).toDouble()
+                        } else {
+                            load_value = (load_value.toString() + n.toInt().toString()).toDouble()
+                        }
+                        result.setText(load_value.toString())
+                        number_typed = true
+                    } else {
+                        load_value *= 10
+                        load_value += n
+                        if (load_value % 1 == 0.0)
+                            result.setText(load_value.toInt().toString())
+                        else result.setText(load_value.toString())
+                        number_typed = true
+                    }
+                }
             }
-        }
+            else {
+                load_value = 0.0
+                load_value += n
+                result.setText(load_value.toInt().toString())
+                number_typed = true
+                equals_mode = false
+            }
 
+        }
 
         button_0.setOnClickListener{
             load(0.0)
@@ -243,6 +274,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        button_decimal.setOnClickListener {
+            if (load_value % 1 == 0.0) {
+                result.setText(load_value.toInt().toString() + ".")
+                decimal_mode = true
+                recent_decimal = true
+            }
+            if (equals_mode) {
+                result.setText("0.")
+                load_value = 0.0
+                decimal_mode = true
+                recent_decimal = true
+                equals_mode = false
+            }
+
+        }
+
+
         button_equals.setOnClickListener{
             if (check()) {
                 //reset (fixed by Jonah)
@@ -253,6 +301,9 @@ class MainActivity : AppCompatActivity() {
                 times_mode = false
                 divide_mode = false
                 number_typed = true
+                decimal_mode = false
+                recent_decimal = false
+                equals_mode = true
                 currentToInt()
             }
         }
