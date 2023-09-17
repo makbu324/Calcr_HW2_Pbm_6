@@ -1,11 +1,13 @@
 package com.example.calcr_v2
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.OnTouchListener
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.sqrt
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var button_0: Button
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     public var times_mode = false
     public var divide_mode = false
     public var root_mode = false
+    public var number_typed = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +73,21 @@ class MainActivity : AppCompatActivity() {
             else result.setText(current_value.toString())
         }
 
+        fun reset() {
+            load_value = 0.0
+            current_value = 0.0
+            first_value = true
+            add_mode = false
+            minus_mode = false
+            times_mode = false
+            divide_mode = false
+            currentToInt()
+        }
+
         currentToInt()
 
         //ERROR MESSAGE
-        fun complain(s: String) {
+        fun complain(s: String): Boolean {
             load_value = 0.0
             current_value = 0.0
             Toast.makeText(
@@ -81,9 +95,11 @@ class MainActivity : AppCompatActivity() {
                 s,
                 Toast.LENGTH_SHORT
             ).show()
+            reset()
+            return false
         }
 
-        fun check() {
+        fun check(): Boolean {
             var good = false //Sees if we can proceed normally with the calculation
 
             //*checks if the loaded value is invalid*
@@ -97,9 +113,12 @@ class MainActivity : AppCompatActivity() {
             // if the load value is empty
             // if there is another active mode
 
+            //if the load_value is different from the edittext value then something must have been changed -> number_typed = true
+            if (typed.toDouble() != load_value) number_typed = true
+
             if (typed.isEmpty()) complain("Please enter your value")
             else if (i > 1 || typed[0].equals('.') || typed[typed.length-1].equals('.') ) complain("Please make a proper decimal")
-            else if (add_mode == true || minus_mode == true || times_mode == true || divide_mode == true) complain("Please press 1 operator at a time")
+            else if (number_typed == false) complain("Please don't use two operators at the same time")
             else {
                 good = true
                 load_value = typed.toDouble()
@@ -122,17 +141,27 @@ class MainActivity : AppCompatActivity() {
                     if (load_value < 0.0) complain("Please square-root a non-negative number")
                     else current_value = sqrt(current_value)
                 }
-            }
+                if (current_value > 99999999) {
+                    complain("The number is too large!")
+                    return false
+                } else {
+                    number_typed = false
+                    return true
+                }
+            } else return false
         }
 
         fun load(n: Double) {
-            load_value *= 10
-            load_value += n
-            if (load_value % 1 == 0.0)
-                result.setText(load_value.toInt().toString())
-            else result.setText(load_value.toString())
-
+            if (result.getText().toString().length < 9) {
+                load_value *= 10
+                load_value += n
+                if (load_value % 1 == 0.0)
+                    result.setText(load_value.toInt().toString())
+                else result.setText(load_value.toString())
+                number_typed = true
+            }
         }
+
 
         button_0.setOnClickListener{
             load(0.0)
@@ -175,64 +204,63 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_plus.setOnClickListener{
-            check()
-            currentToInt()
-            add_mode = true
-            load_value = 0.0
+            if (check()) {
+                currentToInt()
+                add_mode = true
+                load_value = 0.0
+            }
         }
 
         button_minus.setOnClickListener{
-            check()
-            currentToInt()
-            minus_mode = true
-            load_value = 0.0
+            if (check()) {
+                currentToInt()
+                minus_mode = true
+                load_value = 0.0
+            }
         }
 
         button_times.setOnClickListener{
-            check()
-            currentToInt()
-            times_mode = true
-            load_value = 0.0
+            if (check()) {
+                currentToInt()
+                times_mode = true
+                load_value = 0.0
+            }
         }
 
         button_divide.setOnClickListener{
-            check()
-            currentToInt()
-            divide_mode = true
-            load_value = 0.0
+            if (check()) {
+                currentToInt()
+                divide_mode = true
+                load_value = 0.0
+            }
         }
 
         button_root.setOnClickListener{
-            check()
-            currentToInt()
-            root_mode = true
-            load_value = 0.0
+            if (check()) {
+                currentToInt()
+                root_mode = true
+                load_value = 0.0
+            }
         }
 
         button_equals.setOnClickListener{
-            check()
-
-            //reset (fixed by Jonah)
-            load_value = current_value
-            first_value = true
-            add_mode = false
-            minus_mode = false
-            times_mode = false
-            divide_mode = false
-            currentToInt()
+            if (check()) {
+                //reset (fixed by Jonah)
+                load_value = current_value
+                first_value = true
+                add_mode = false
+                minus_mode = false
+                times_mode = false
+                divide_mode = false
+                number_typed = true
+                currentToInt()
+            }
         }
 
         button_C.setOnClickListener{
 
             //reset
-            load_value = 0.0
-            current_value = 0.0
-            first_value = true
-            add_mode = false
-            minus_mode = false
-            times_mode = false
-            divide_mode = false
-            currentToInt()
+            reset()
         }
     }
 }
