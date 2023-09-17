@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun load(n: Double) {
-            if (result.getText().toString().length < 9) {
+            if (result.getText().toString().length < 10000000 && load_value < 99999999) {
                 load_value *= 10
                 load_value += n
                 if (load_value % 1 == 0.0)
