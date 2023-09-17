@@ -154,9 +154,15 @@ class MainActivity : AppCompatActivity() {
                     else current_value = sqrt(current_value)
                 }
                 if (current_value > 99999999) {
-                    complain("The number is too large!")
+                    complain("The number is too high!")
                     return false
-                } else {
+                }
+                else if (current_value < -9999999){
+                    complain("The number is too low!")
+                    return false
+
+                }
+                else {
                     number_typed = false
                     return true
                 }
