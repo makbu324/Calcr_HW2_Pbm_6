@@ -32,6 +32,7 @@
             android:text="@string/one"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_2" />
@@ -41,6 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toEndOf="@+id/button_1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_3"/>
@@ -49,12 +51,36 @@
             android:text="@string/three"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toEndOf="@+id/button_2"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_plus" />
+
+        <Button
+            android:id="@+id/button_plus"
+            android:text="@string/plus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:style="@style/ButtonStyle"
+            app:layout_constraintStart_toEndOf="@+id/button_3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_times" />
+
+        <Button
+            android:id="@+id/button_times"
+            android:text="@string/times"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:style="@style/ButtonStyle"
+            app:layout_constraintStart_toEndOf="@+id/button_plus"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -63,6 +89,7 @@
             android:text="@string/four"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_5" />
@@ -72,6 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toEndOf="@+id/button_4"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_6"/>
@@ -80,12 +108,36 @@
             android:text="@string/six"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toEndOf="@+id/button_5"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/button_minus" />
+
+        <Button
+            android:id="@+id/button_minus"
+            android:text="@string/minus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:style="@style/ButtonStyle"
+            app:layout_constraintStart_toEndOf="@+id/button_6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_divide"/>
+
+        <Button
+            android:id="@+id/button_divide"
+            android:text="@string/divide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:style="@style/ButtonStyle"
+            app:layout_constraintStart_toEndOf="@+id/button_minus"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -94,6 +146,8 @@
             android:text="@string/seven"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_8" />
@@ -103,6 +157,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:layout_weight="1"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toEndOf="@+id/button_7"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_9"/>
@@ -111,45 +167,63 @@
             android:text="@string/nine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toEndOf="@+id/button_8"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+            app:layout_constraintEnd_toStartOf="@+id/button_root" />
 
         <Button
-            android:id="@+id/button_plus"
-            android:text="@string/plus"
+            android:id="@+id/button_root"
+            android:text="@string/root"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:style="@style/ButtonStyle"
+            app:layout_constraintStart_toEndOf="@+id/button_9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_0"
+            android:text="@string/zero"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_minus" />
-
+            app:layout_constraintEnd_toStartOf="@+id/button_decimal" />
         <Button
-            android:id="@+id/button_minus"
-            android:text="@string/minus"
+            android:id="@+id/button_decimal"
+            android:text="@string/decimal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
-            app:layout_constraintStart_toEndOf="@+id/button_plus"
+            android:layout_weight="1"
+            android:style="@style/ButtonStyle"
+            app:layout_constraintStart_toEndOf="@+id/button_0"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_times"/>
+            app:layout_constraintEnd_toStartOf="@+id/button_equal"/>
 
         <Button
-            android:id="@+id/button_times"
-            android:text="@string/times"
+            android:id="@+id/button_equals"
+            android:text="@string/equals"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/button_minus"
+            android:layout_weight="2"
+            android:style="@style/ButtonStyle"
+            app:layout_constraintStart_toEndOf="@+id/button_decimal"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
@@ -162,53 +236,12 @@
             android:text="@string/clear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:style="@style/ButtonStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_divide" />
-
-        <Button
-            android:id="@+id/button_divide"
-            android:text="@string/divide"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            app:layout_constraintStart_toEndOf="@+id/button_C"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_root"/>
-
-        <Button
-            android:id="@+id/button_root"
-            android:text="@string/root"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/button_divide"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
 
-        <Button
-            android:id="@+id/button_equals"
-            android:text="@string/equals"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_0" />
-
-        <Button
-            android:id="@+id/button_0"
-            android:text="@string/zero"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/button_equals"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
