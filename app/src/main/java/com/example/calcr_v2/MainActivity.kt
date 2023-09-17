@@ -73,12 +73,12 @@ class MainActivity : AppCompatActivity() {
         currentToInt()
 
         //ERROR MESSAGE
-        fun complain() {
+        fun complain(s: String) {
             load_value = 0.0
             current_value = 0.0
             Toast.makeText(
                 this,
-                R.string.invalid_ms,
+                s,
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -97,9 +97,9 @@ class MainActivity : AppCompatActivity() {
             // if the load value is empty
             // if there is another active mode
 
-            if (typed.isEmpty()) complain()
-            else if (i > 1 || typed[0].equals('.') || typed[typed.length-1].equals('.') ) complain()
-            else if (add_mode == true || minus_mode == true || times_mode == true || divide_mode == true) complain()
+            if (typed.isEmpty()) complain("Please enter your value")
+            else if (i > 1 || typed[0].equals('.') || typed[typed.length-1].equals('.') ) complain("Please make a proper decimal")
+            else if (add_mode == true || minus_mode == true || times_mode == true || divide_mode == true) complain("Please press 1 operator at a time")
             else {
                 good = true
                 load_value = typed.toDouble()
@@ -116,10 +116,10 @@ class MainActivity : AppCompatActivity() {
                 } else if (times_mode == true) {
                     current_value *= load_value
                 } else if (divide_mode == true){
-                    if (load_value == 0.0) complain()
+                    if (load_value == 0.0) complain("Please divide by a non-zero number")
                     else current_value /= load_value
                 } else if (root_mode == true){
-                    if (load_value < 0.0) complain()
+                    if (load_value < 0.0) complain("Please square-root a non-negative number")
                     else current_value = sqrt(current_value)
                 }
             }
