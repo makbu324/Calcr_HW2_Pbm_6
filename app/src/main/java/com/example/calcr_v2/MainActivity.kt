@@ -3,7 +3,6 @@ package com.example.calcr_v2
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.View.OnTouchListener
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -30,21 +29,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var button_C: Button
     private lateinit var button_equals: Button
 
-    public var current_value = 0.0
-    public var load_value = 0.0
+    var current_value = 0.0
+    var load_value = 0.0
 
 
-    public var first_value = true
+    var first_value = true
 
-    public var add_mode = false
-    public var minus_mode = false
-    public var times_mode = false
-    public var divide_mode = false
-    public var root_mode = false
-    public var number_typed = true
-    public var decimal_mode = false
-    public var recent_decimal = false
-    public var equals_mode = false
+    var add_mode = false
+    var minus_mode = false
+    var times_mode = false
+    var divide_mode = false
+    var root_mode = false
+    var number_typed = true
+    var decimal_mode = false
+    var recent_decimal = false
+    var equals_mode = false
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,8 +135,8 @@ class MainActivity : AppCompatActivity() {
             var string = result.text.toString()
             var valid = true
             var resultNum = 0.0
-            var validchars = "0123456789.+-*/%sqrt"
-            var operators = "+-*/%"
+            val validchars = "0123456789.+-*/%sqrt"
+            val operators = "+-*/%"
             if ((string.last() == 't') || (string.last() in operators)) valid = false
             else {
                 for (c in string.indices) {
@@ -198,7 +197,7 @@ class MainActivity : AppCompatActivity() {
                 // go through and do sqrt's first: only way I could figure this out
                 // this also contains check for div by 0
                 Log.d("test",storedArray.toString())
-                var toRemove = mutableListOf<Int>()
+                val toRemove = mutableListOf<Int>()
                 for (i in storedArray.indices) {
                     if ((storedArray[i] == "sqrt") && (i != storedArray.size-1)) {
                         if (storedArray[i+1] == "sqrt") {
@@ -275,10 +274,10 @@ class MainActivity : AppCompatActivity() {
             var good = false //Sees if we can proceed normally with the calculation
 
             //*checks if the loaded value is invalid*
-            var typed = result.getText().toString()
+            var typed = result.text.toString()
             var i = 0
             for (c in typed){
-                if (c.equals('.')) i += 1
+                if (c == '.') i += 1
             }
             //ERROR will happen when
             // if '.' is in the beginning, occurs more than twice,
@@ -289,8 +288,8 @@ class MainActivity : AppCompatActivity() {
             if (typed.toDouble() != load_value) number_typed = true
 
             if (typed.isEmpty()) complain("Please enter your value")
-            else if (i > 1 || typed[0].equals('.') || typed[typed.length-1].equals('.') ) complain("Please make a proper decimal")
-            else if (number_typed == false) complain("Please don't use two operators at the same time")
+            else if (i > 1 || typed[0] == '.' || typed[typed.length-1] == '.') complain("Please make a proper decimal")
+            else if (!number_typed) complain("Please don't use two operators at the same time")
             else {
                 good = true
                 load_value = typed.toDouble()
@@ -298,35 +297,33 @@ class MainActivity : AppCompatActivity() {
                 recent_decimal = false
             }
 
-            if (good == true) {
-                if (first_value == true) {
+            if (good) {
+                if (first_value) {
                     first_value = false
                     current_value = load_value
-                } else if (add_mode == true) {
+                } else if (add_mode) {
                     current_value += load_value
-                } else if (minus_mode == true) {
+                } else if (minus_mode) {
                     current_value -= load_value
-                } else if (times_mode == true) {
+                } else if (times_mode) {
                     current_value *= load_value
-                } else if (divide_mode == true){
+                } else if (divide_mode){
                     if (load_value == 0.0) complain("Please divide by a non-zero number")
                     else current_value /= load_value
-                } else if (root_mode == true){
+                } else if (root_mode){
                     if (load_value < 0.0) complain("Please square-root a non-negative number")
                     else current_value = sqrt(current_value)
                 }
-                if (current_value > 99999999) {
+                return if (current_value > 99999999) {
                     complain("The number is too high!")
-                    return false
-                }
-                else if (current_value < -9999999){
+                    false
+                } else if (current_value < -9999999){
                     complain("The number is too low!")
-                    return false
+                    false
 
-                }
-                else {
+                } else {
                     number_typed = false
-                    return true
+                    true
                 }
             } else return false
         }
@@ -335,12 +332,12 @@ class MainActivity : AppCompatActivity() {
 
         fun load(n: Double) {
             if (!equals_mode) {
-                if (result.getText().toString().length < 10000000 && load_value < 99999999) {
+                if (result.text.toString().length < 10000000 && load_value < 99999999) {
                     if (decimal_mode) {
-                        if (recent_decimal) {
-                            load_value = (result.text.toString() + n.toInt().toString()).toDouble()
+                        load_value = if (recent_decimal) {
+                            (result.text.toString() + n.toInt().toString()).toDouble()
                         } else {
-                            load_value = (load_value.toString() + n.toInt().toString()).toDouble()
+                            (load_value.toString() + n.toInt().toString()).toDouble()
                         }
                         result.setText(load_value.toString())
                         number_typed = true
