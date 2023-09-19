@@ -201,6 +201,10 @@ class MainActivity : AppCompatActivity() {
                 var toRemove = mutableListOf<Int>()
                 for (i in storedArray.indices) {
                     if ((storedArray[i] == "sqrt") && (i != storedArray.size-1)) {
+                        if (storedArray[i+1] == "sqrt") {
+                            complain("This app does not yet support sqrt of sqrt")
+                            return(0.0)
+                        }
                         var temp = storedArray[i+1].toDouble()
                         toRemove.add(i)
                         storedArray[i+1] = sqrt(temp).toString()
