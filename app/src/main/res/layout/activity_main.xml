@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:inputType="text"
             android:autoSizeTextType="uniform"
+            android:digits="0,1,2,3,4,5,6,7,8,9,*,+,-,s,q,r,t,.,/"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </LinearLayout>
 
