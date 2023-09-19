@@ -169,6 +169,8 @@ class MainActivity : AppCompatActivity() {
             } else return false
         }
 
+        //test
+
         fun load(n: Double) {
             if (!equals_mode) {
                 if (result.getText().toString().length < 10000000 && load_value < 99999999) {
