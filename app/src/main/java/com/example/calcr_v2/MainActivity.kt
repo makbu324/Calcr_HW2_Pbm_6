@@ -131,8 +131,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun parseString(): Double {
-
             var string = result.text.toString()
+
+            //Mak: Let me try to switch for example: 8sqrt->sqrt8
+            if (string.contains("sqrt")) {
+                var rep_at = -1
+                var num = ""
+                for (c in string.indices) {
+                    Log.d("num is ", num)
+                    if ("0123456789.".contains(string[c])) {
+                        num += string.substring(c, c+1)
+                        if (rep_at == -1) rep_at = c
+                    } else if (c > string.length -4) break
+                    else if (string.substring(c,c+4) == "sqrt") {
+                        var rep = "sqrt" + num
+                        string = string.replaceRange(rep_at, rep_at+rep.length, rep)
+                        rep_at = -1
+                    } else {
+                        num = ""
+                        rep_at = -1
+                    }
+                }
+            }
+
+            Log.d("we got ", string)
+
             var valid = true
             var resultNum = 0.0
             val validchars = "0123456789.+-*/%sqrt"
