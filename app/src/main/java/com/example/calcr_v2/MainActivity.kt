@@ -2,13 +2,13 @@ package com.example.calcr_v2
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View.OnTouchListener
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.sqrt
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var button_0: Button
@@ -109,6 +109,150 @@ class MainActivity : AppCompatActivity() {
             return false
         }
 
+        fun checkForOperands() : Boolean {
+
+            var typed = result.text.toString()
+            var typedCheck = typed
+            typedCheck = typedCheck.replace("0","")
+            typedCheck = typedCheck.replace("1","")
+            typedCheck = typedCheck.replace("2","")
+            typedCheck = typedCheck.replace("3","")
+            typedCheck = typedCheck.replace("4","")
+            typedCheck = typedCheck.replace("5","")
+            typedCheck = typedCheck.replace("6","")
+            typedCheck = typedCheck.replace("7","")
+            typedCheck = typedCheck.replace("8","")
+            typedCheck = typedCheck.replace("9","")
+            typedCheck = typedCheck.replace(".","")
+
+
+            return typedCheck.isNotEmpty()
+
+
+        }
+
+        fun parseString(): Double {
+
+            var string = result.text.toString()
+            var valid = true
+            var resultNum = 0.0
+            var validchars = "0123456789.+-*/%sqrt"
+            var operators = "+-*/%"
+            if ((string.last() == 't') || (string.last() in operators)) valid = false
+            else {
+                for (c in string.indices) {
+                    if (string[c] !in validchars) {
+                        valid = false
+                    }
+                    if (string[c] in operators) {
+                        if (c == 0) {
+                            valid = false
+                        } else if (string[c - 1] in operators) {
+                            valid = false
+                        }
+                    }
+                }
+            }
+            if (valid) {
+                var storedArray = mutableListOf<String>()
+                var currentElem = ""
+                for (c in string.indices) {
+                    if (string[c].toString() in "0123456789.") {
+                        currentElem += string[c]
+                    }
+                    else if (string[c].toString() in "+-*/%") {
+                        storedArray.add(currentElem)
+                        storedArray.add(string[c].toString())
+                        currentElem = ""
+                    }
+                    else if (string[c].toString() == "t") {
+                        storedArray.add("sqrt")
+                        currentElem = ""
+                    }
+                }
+                storedArray.add(currentElem)
+                Log.d("test",storedArray.toString())
+                var currentVal = 0.0
+                var currentMode = "None"
+
+
+                //CHECK FOR VALID DECIMALS
+
+                for (elem in storedArray) {
+                    if (((elem.length - elem.replace(".","").length) > 1) || (elem.first() == '.')
+                        || (elem.last() == '.')) {
+                        complain("Please enter valid decimals!")
+                        return(0.0)
+                    }
+
+                }
+
+                // go through and do sqrt's first: only way I could figure this out
+                Log.d("test",storedArray.toString())
+                var toRemove = mutableListOf<Int>()
+                for (i in storedArray.indices) {
+                    if ((storedArray[i] == "sqrt") && (i != storedArray.size-1)) {
+                        var temp = storedArray[i+1].toDouble()
+                        toRemove.add(i)
+                        storedArray[i+1] = sqrt(temp).toString()
+                    }
+
+                }
+                Log.d("test",storedArray.toString())
+
+                for (index in toRemove) {
+                    storedArray.removeAt(index)
+                }
+                Log.d("test",storedArray.toString())
+                for (i in storedArray.indices) {
+
+                    if (i == 0) {
+                        resultNum = storedArray[i].toDouble()
+                    }
+                    else if (storedArray[i] in "+-*/%") {
+                        currentMode = storedArray[i]
+                    }
+                    else {
+                            if (currentMode == "None"){
+                                complain("Please ensure valid input.")
+                                return (0.0)
+                            }
+                            currentVal = storedArray[i].toDouble()
+                            if (currentMode == "+") {
+                                resultNum += currentVal
+                                currentMode = "None"
+                            }
+                            if (currentMode == "-") {
+                                resultNum -= currentVal
+                                currentMode = "None"
+                            }
+                            if (currentMode == "*") {
+                                resultNum *= currentVal
+                                currentMode = "None"
+                            }
+                            if (currentMode == "/") {
+                                resultNum /= currentVal
+                                currentMode = "None"
+                            }
+                            if (currentMode == "%") {
+                                resultNum %= currentVal
+                                currentMode = "None"
+                            }
+                        }
+                    }
+
+
+
+                }
+            else {
+                complain("Please enter a valid expression!")
+                resultNum = 0.0
+            }
+
+
+
+            return resultNum
+        }
         fun check(): Boolean {
             var good = false //Sees if we can proceed normally with the calculation
 
@@ -300,7 +444,12 @@ class MainActivity : AppCompatActivity() {
 
 
         button_equals.setOnClickListener{
-            if (check()) {
+            Log.d("test", "hi")
+            if (checkForOperands()) {
+                current_value = parseString()
+                currentToInt()
+            }
+            else if (check()) {
                 //reset (fixed by Jonah)
                 load_value = current_value
                 first_value = true
