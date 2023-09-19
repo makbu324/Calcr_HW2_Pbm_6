@@ -165,6 +165,14 @@ class MainActivity : AppCompatActivity() {
                         storedArray.add(string[c].toString())
                         currentElem = ""
                     }
+                    else if (string[c].toString() == "s") {
+                        if (currentElem != "") {
+                            if (currentElem !in "+-*/%") {
+                                complain("sqrt must be preceded by +,-,*,/,%")
+                                return(0.0)
+                            }
+                        }
+                    }
                     else if (string[c].toString() == "t") {
                         storedArray.add("sqrt")
                         currentElem = ""
@@ -188,6 +196,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 // go through and do sqrt's first: only way I could figure this out
+                // this also contains check for div by 0
                 Log.d("test",storedArray.toString())
                 var toRemove = mutableListOf<Int>()
                 for (i in storedArray.indices) {
@@ -195,6 +204,11 @@ class MainActivity : AppCompatActivity() {
                         var temp = storedArray[i+1].toDouble()
                         toRemove.add(i)
                         storedArray[i+1] = sqrt(temp).toString()
+                    }
+                    if ((storedArray[i] == "/") && (i != storedArray.size-1) &&
+                        (storedArray[i+1] == "0")) {
+                        complain("Cannot divide by 0!")
+                        return(0.0)
                     }
 
                 }
@@ -447,7 +461,25 @@ class MainActivity : AppCompatActivity() {
             Log.d("test", "hi")
             if (checkForOperands()) {
                 current_value = parseString()
-                currentToInt()
+                load_value = current_value
+                first_value = true
+                add_mode = false
+                minus_mode = false
+                times_mode = false
+                divide_mode = false
+                number_typed = true
+                decimal_mode = false
+                recent_decimal = false
+                equals_mode = true
+                if (current_value > 99999999) {
+                    complain("The number is too high!")
+                    current_value = 0.0
+                }
+                else if (current_value < -9999999) {
+                    complain("The number is too low!")
+                    current_value = 0.0
+                }
+                else currentToInt()
             }
             else if (check()) {
                 //reset (fixed by Jonah)
