@@ -157,6 +157,7 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("we got initally ", string)
 
+            //added by Mak
             num = ""
             var num2 = ""
             var op = ' '
@@ -186,6 +187,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            //added by Mak
             if (num2 != "" && op != ' ') {
                 var thing = ""
                 var to_rep = num2 + op.toString() + num
