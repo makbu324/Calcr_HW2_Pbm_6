@@ -135,34 +135,34 @@ class MainActivity : AppCompatActivity() {
 
             //Mak: Handles *, /, sqrt
             var num = ""
-            var operatah = ' '
-            var num2 = ""
             for (c in string.indices) {
-                Log.d("num is ", num)
                 if ("0123456789.".contains(string[c])) {
-                    num += string.substring(c, c+1)
+                    num += string[c].toString()
                     if (num == "0") num = ""
                 } else if (c <= string.length -4) { //sqrt
                     if (string.substring(c,c+4) == "sqrt") {
                         var sqrt_thing = sqrt(num.toDouble()).toString() + "00000"
                         string = string.replace(num + "sqrt", sqrt_thing)
-                        if (num2 != "" && operatah != ' ') {
-                            if (operatah == '*')
-                                string = string.replace(
-                                    num2 + operatah.toString() + sqrt_thing,
-                                    (sqrt_thing.toDouble() * num2.toDouble()).toString() + "00000"
-                                )
-                            else if (operatah == '/')
-                                string = string.replace(
-                                    num2 + operatah.toString() + sqrt_thing,
-                                    (sqrt_thing.toDouble() / num2.toDouble()).toString() + "00000"
-                                )
-                            operatah = ' '
-                            num2 = ""
-                            Log.d("temp: ", string)
-                        }
                     }
                     num = ""
+                } else {
+                    num = ""
+                    //test
+                }
+            }
+
+            Log.d("we got initally ", string)
+
+            num = ""
+            var operatah = ' '
+            var num2 = ""
+            for (c in string.indices) {
+                Log.d("num", num)
+                Log.d("string", string)
+                if ("0123456789.".contains(string[c])) {
+                    if (c+1 == string.length) break
+                    num += string[c].toString()
+                    if (num == "0") num = ""
                 } else if (string[c] == '*' || string[c] == '/') {
                     num2 = num
                     operatah = string[c]
@@ -174,11 +174,29 @@ class MainActivity : AppCompatActivity() {
                         string = string.replace(num2 + operatah.toString() + num, (num.toDouble()/num2.toDouble()).toString() + "00000")
                     operatah = ' '
                     num2 = ""
-                } else {
                     num = ""
-                    //test
+                    Log.d("success ", string)
+                } else {
+                    operatah = ' '
+                    num2 = ""
+                    num = ""
                 }
             }
+
+            if (num2 != "" && operatah != ' ') {
+                if (operatah == '*')
+                    string = string.replace(num2 + operatah.toString() + num, (num.toDouble()*num2.toDouble()).toString() + "00000")
+                else if (operatah == '/')
+                    string = string.replace(num2 + operatah.toString() + num, (num.toDouble()/num2.toDouble()).toString() + "00000")
+                operatah = ' '
+                num2 = ""
+                num = ""
+                Log.d("success ", string)
+            }
+
+
+
+
 
             Log.d("we got ", string)
 
