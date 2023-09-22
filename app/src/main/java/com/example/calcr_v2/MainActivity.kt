@@ -176,6 +176,7 @@ class MainActivity : AppCompatActivity() {
                     num2 = ""
                 } else {
                     num = ""
+                    //test
                 }
             }
 
