@@ -181,6 +181,7 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("we got ", string)
 
+            // Check to see if string is valid equation
             var valid = true
             var resultNum = 0.0
             val validchars = "0123456789.+-*/%sqrt"
@@ -200,6 +201,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+
+
+
+            // Store equation as list of numbers and operators in order
             if (valid) {
                 var storedArray = mutableListOf<String>()
                 var currentElem = ""
@@ -231,8 +236,7 @@ class MainActivity : AppCompatActivity() {
                 var currentMode = "None"
 
 
-                //CHECK FOR VALID DECIMALS
-
+                //Check for valid decimals. If invalid, complain and return 0.0
                 for (elem in storedArray) {
                     if (((elem.length - elem.replace(".","").length) > 1) || (elem.first() == '.')
                         || (elem.last() == '.')) {
@@ -241,6 +245,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 }
+
 
                 // go through and do sqrt's first: only way I could figure this out
                 // this also contains check for div by 0
