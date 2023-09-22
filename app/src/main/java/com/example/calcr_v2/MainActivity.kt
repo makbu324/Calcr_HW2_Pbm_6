@@ -133,24 +133,49 @@ class MainActivity : AppCompatActivity() {
         fun parseString(): Double {
             var string = result.text.toString()
 
-            //Mak: Let me try to switch for example: 8sqrt->sqrt8
-            if (string.contains("sqrt")) {
-                var rep_at = -1
-                var num = ""
-                for (c in string.indices) {
-                    Log.d("num is ", num)
-                    if ("0123456789.".contains(string[c])) {
-                        num += string.substring(c, c+1)
-                        if (rep_at == -1) rep_at = c
-                    } else if (c > string.length -4) break
-                    else if (string.substring(c,c+4) == "sqrt") {
-                        var rep = "sqrt" + num
-                        string = string.replaceRange(rep_at, rep_at+rep.length, rep)
-                        rep_at = -1
-                    } else {
-                        num = ""
-                        rep_at = -1
+            //Mak: Handles *, /, sqrt
+            var num = ""
+            var operatah = ' '
+            var num2 = ""
+            for (c in string.indices) {
+                Log.d("num is ", num)
+                if ("0123456789.".contains(string[c])) {
+                    num += string.substring(c, c+1)
+                    if (num == "0") num = ""
+                } else if (c <= string.length -4) { //sqrt
+                    if (string.substring(c,c+4) == "sqrt") {
+                        var sqrt_thing = sqrt(num.toDouble()).toString() + "00000"
+                        string = string.replace(num + "sqrt", sqrt_thing)
+                        if (num2 != "" && operatah != ' ') {
+                            if (operatah == '*')
+                                string = string.replace(
+                                    num2 + operatah.toString() + sqrt_thing,
+                                    (sqrt_thing.toDouble() * num2.toDouble()).toString() + "00000"
+                                )
+                            else if (operatah == '/')
+                                string = string.replace(
+                                    num2 + operatah.toString() + sqrt_thing,
+                                    (sqrt_thing.toDouble() / num2.toDouble()).toString() + "00000"
+                                )
+                            operatah = ' '
+                            num2 = ""
+                            Log.d("temp: ", string)
+                        }
                     }
+                    num = ""
+                } else if (string[c] == '*' || string[c] == '/') {
+                    num2 = num
+                    operatah = string[c]
+                    num = ""
+                } else if (num2 != "" && operatah != ' ') {
+                    if (operatah == '*')
+                        string = string.replace(num2 + operatah.toString() + num, (num.toDouble()*num2.toDouble()).toString() + "00000")
+                    else if (operatah == '/')
+                        string = string.replace(num2 + operatah.toString() + num, (num.toDouble()/num2.toDouble()).toString() + "00000")
+                    operatah = ' '
+                    num2 = ""
+                } else {
+                    num = ""
                 }
             }
 
