@@ -141,8 +141,12 @@ class MainActivity : AppCompatActivity() {
                     if (num == "0") num = ""
                 } else if (c <= string.length -4) { //sqrt
                     if (string.substring(c,c+4) == "sqrt") {
-                        var sqrt_thing = sqrt(num.toDouble()).toString() + "00000"
-                        string = string.replace(num + "sqrt", sqrt_thing)
+                        var sqrt_thing = sqrt(num.toDouble()).toString()
+                        var sqrt_to_rep = num + "sqrt"
+                        while (sqrt_thing.length < sqrt_to_rep.length) sqrt_thing += "0"
+                        while (sqrt_thing.length > sqrt_to_rep.length) sqrt_thing = sqrt_thing.substring(0, sqrt_thing.length-1)
+
+                        string = string.replace(sqrt_to_rep, sqrt_thing)
                     }
                     num = ""
                 } else {
@@ -153,11 +157,45 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("we got initally ", string)
 
+            num = ""
+            var num2 = ""
+            var op = ' '
+            for (c in string.indices) {
+                if ("0123456789.".contains(string[c])) {
+                    num += string[c].toString()
+                    if (num == "0") num = ""
+                } else if (string[c] == '*' || string[c] == '/') { //sqrt
+                    num2 = num
+                    op = '*'
+                    num = ""
+                } else if (num2 != "" && op != ' ') {
+                    var thing = ""
+                    var to_rep = num2 + op.toString() + num
+                    if (op == '*') thing = (num2.toDouble() * num.toDouble()).toDouble().toString()
+                        else thing = (num2.toDouble() / num.toDouble()).toDouble().toString()
+                    while (thing.length < to_rep.length) thing += "0"
+                    while (thing.length > to_rep.length) thing = thing.substring(0, thing.length-1)
 
+                    string = string.replace(to_rep, thing)
+                    num2 = num
+                    op = '*'
+                    num = ""
+                } else {
+                    num = ""
+                    //test
+                }
+            }
 
+            if (num2 != "" && op != ' ') {
+                var thing = ""
+                var to_rep = num2 + op.toString() + num
+                if (op == '*') thing = (num2.toDouble() * num.toDouble()).toDouble().toString()
+                else thing = (num2.toDouble() / num.toDouble()).toDouble().toString()
+                while (thing.length < to_rep.length) thing += "0"
+                while (thing.length > to_rep.length) thing = thing.substring(0, thing.length-1)
 
-
-
+                string = string.replace(to_rep, thing)
+            }
 
             Log.d("we got ", string)
 
