@@ -153,46 +153,7 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("we got initally ", string)
 
-            num = ""
-            var operatah = ' '
-            var num2 = ""
-            for (c in string.indices) {
-                Log.d("num", num)
-                Log.d("string", string)
-                if ("0123456789.".contains(string[c])) {
-                    if (c+1 == string.length) break
-                    num += string[c].toString()
-                    if (num == "0") num = ""
-                } else if (string[c] == '*' || string[c] == '/') {
-                    num2 = num
-                    operatah = string[c]
-                    num = ""
-                } else if (num2 != "" && operatah != ' ') {
-                    if (operatah == '*')
-                        string = string.replace(num2 + operatah.toString() + num, (num.toDouble()*num2.toDouble()).toString() + "00000")
-                    else if (operatah == '/')
-                        string = string.replace(num2 + operatah.toString() + num, (num.toDouble()/num2.toDouble()).toString() + "00000")
-                    operatah = ' '
-                    num2 = ""
-                    num = ""
-                    Log.d("success ", string)
-                } else {
-                    operatah = ' '
-                    num2 = ""
-                    num = ""
-                }
-            }
 
-            if (num2 != "" && operatah != ' ') {
-                if (operatah == '*')
-                    string = string.replace(num2 + operatah.toString() + num, (num.toDouble()*num2.toDouble()).toString() + "00000")
-                else if (operatah == '/')
-                    string = string.replace(num2 + operatah.toString() + num, (num.toDouble()/num2.toDouble()).toString() + "00000")
-                operatah = ' '
-                num2 = ""
-                num = ""
-                Log.d("success ", string)
-            }
 
 
 
